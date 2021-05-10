@@ -1,0 +1,32 @@
+/* .post{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 12px;
+    row-gap :12px;
+    
+  } */
+
+.title{
+  text-align: center;
+}
+  .post{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    align-items: center;
+  }
+
+  .card{
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+    width:250px;
+    height: 500px;
+    margin:10px;
+    box-shadow: 3px 3px 5px rgba(49,49,49,0.5);
+    
+  }
+ 
+  .card-body{
+    text-align:center;
+  }

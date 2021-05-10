@@ -1,0 +1,27 @@
+<div class="container my-4">
+  <div class="title">
+    <h1>Popular Posts</h1>
+  </div>
+  
+  <hr>
+
+  <div class="post">
+    <div
+      class="card"
+      style="width: 18rem"
+      *ngFor="let item of Data; let i = index"
+    >
+      <img src="{{ item.image }}" class="card-img-top" alt="{{ item.name }}" height="225px" />
+      <div class="card-body">
+        <h5 class="card-title">{{ item.name |uppercase}}</h5>
+        <p class="card-text">{{ item.description }}</p>
+      </div>
+    </div>
+    <div
+      class="alert alert-danger text-center col-sm-12"
+      *ngIf="Data.length === 0"
+    >
+      <h2>ไม่มีข้อมูล</h2>
+    </div>
+  </div>
+</div>
