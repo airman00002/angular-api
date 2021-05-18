@@ -18,12 +18,12 @@ export class UserComponent implements OnInit, OnDestroy {
   DataSubscription!: Subscription;
 
   ngOnInit() {
+    this.DataSubscription = this.crudService.getData();
     this.DataSubscription = this.crudService.dataChanged.subscribe(
       (data: postData[]) => {
         this.Data = data;
       }
     );
-    this.Data = this.crudService.getData();
   }
 
   onCreatePage() {
@@ -33,9 +33,10 @@ export class UserComponent implements OnInit, OnDestroy {
     this.router.navigate(['edit']);
   }
 
-  onDelete(index: number) {
+  onDelete(id: any, index: any) {
     if (window.confirm('Are you sure you want to delete')) {
-      this.crudService.deleteData(index);
+      console.log('id : ' + id);
+      this.crudService.deleteData(id, index);
     }
   }
 

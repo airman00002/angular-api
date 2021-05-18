@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CrudService } from '../crud.service';
+import { postData } from '../data.model';
 
 @Component({
   selector: 'app-edit-post',
@@ -11,6 +12,7 @@ import { CrudService } from '../crud.service';
 export class EditPostComponent implements OnInit {
   editForm!: FormGroup;
   id!: number;
+  data_Id!: postData[];
 
   constructor(
     private crudService: CrudService,
@@ -36,15 +38,22 @@ export class EditPostComponent implements OnInit {
   }
 
   private initForm() {
-    const data_Id = this.crudService.getDataById(this.id);
-    let image = data_Id.image;
-    let name = data_Id.name;
-    let description = data_Id.description;
-
+    this.crudService.getDataById(this.id).subscribe(
+      (data) => {
+        console.log(data);
+        // const data_Id = this.crudService.getDataById(this.id);
+        // let image = this.data_Id;
+        // let name = data_Id.name;
+        // let description = data_Id.description;
+      },
+      (error) => {
+        // console.log(error.message);
+      }
+    );
     this.editForm = new FormGroup({
-      image: new FormControl(image, Validators.required),
-      name: new FormControl(name, Validators.required),
-      description: new FormControl(description, Validators.required),
+      image: new FormControl(null, Validators.required),
+      name: new FormControl(null, Validators.required),
+      description: new FormControl(null, Validators.required),
     });
   }
 }

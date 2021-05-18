@@ -4,6 +4,7 @@
       <h2 class="text-center">Create Post</h2>
 
       <form [formGroup]="createForm" (ngSubmit)="onCreateSubmit()">
+
         <div class="form-group">
           <label for="image">Image</label>
           <input
@@ -13,7 +14,7 @@
             class="form-control"
             required
             formControlName="image"
-            #image
+           #image
           />
         </div>
 

@@ -40,12 +40,12 @@
                 <button
                   class="btn btn-warning mx-4"
                   style="color: #fff"
-                  routerLink="/edit/{{ i }}"
+                  routerLink="/edit/{{ item.id }}"
                 >
                   Edit
                 </button>
 
-                <button class="btn btn-danger" (click)="onDelete(i)">
+                <button class="btn btn-danger" (click)="onDelete(item.id,i)">
                   Delete
                 </button>
               </td>

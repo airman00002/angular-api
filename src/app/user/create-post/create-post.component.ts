@@ -20,8 +20,8 @@ export class CreatePostComponent implements OnInit {
 
   ngOnInit() {
     this.createForm = new FormGroup({
-      image: new FormControl(null, Validators.required),
       name: new FormControl(null, Validators.required),
+      image: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required),
     });
 
@@ -30,7 +30,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   onCreateSubmit() {
-    this.crudService.addData(this.createForm.value)
+    this.crudService.createData(this.createForm.value)
     this.router.navigate(['user']);
     this.createForm.reset();
   }
