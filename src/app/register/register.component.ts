@@ -12,10 +12,10 @@ import { AuthResponseData, AuthService } from '../auth/auth.service';
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   isLoading = false;
-  error:any=null;
-  authObs:any;
+  error: any = null;
+  authObs: any;
 
-  constructor(private authService: AuthService,private router : Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.registerForm = new FormGroup({
@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
   }
   onRegister() {
     console.log(this.registerForm.value);
-    
+
     if (!this.registerForm.valid) {
       return;
     }
@@ -38,9 +38,7 @@ export class RegisterComponent implements OnInit {
     let authObs: Observable<AuthResponseData>;
     this.isLoading = true;
 
-    
-      authObs = this.authService.signup(email, password);
-    
+    authObs = this.authService.signup(email, password);
 
     authObs.subscribe(
       (resData) => {
@@ -57,6 +55,7 @@ export class RegisterComponent implements OnInit {
 
     this.registerForm.reset();
   }
-
+  onCancel() {
+    this.router.navigate([''])
   }
-
+}
