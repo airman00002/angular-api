@@ -32,7 +32,7 @@ export class CrudService {
   // ];
 
   private data: postData[] = [];
-  REST_API: string = 'http://localhost:1150/product';
+  REST_API: string = 'http://localhost:8080/blog';
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) {}
