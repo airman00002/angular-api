@@ -24,13 +24,13 @@ export class LoginComponent implements OnInit {
     if (!form.valid) {
       return;
     }
-    const email = form.value.email;
+    const username = form.value.username;
     const password = form.value.password;
 
     let authObs: Observable<AuthResponseData>;
     this.isLoading = true;
 
-    authObs = this.authService.login(email, password);
+    authObs = this.authService.login(username, password);
 
     authObs.subscribe(
       (resData) => {
