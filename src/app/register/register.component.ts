@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit {
       },
       (errorMessage) => {
         console.log(errorMessage);
-        this.error = errorMessage;
+        this.error = errorMessage.error;
         this.isLoading = false;
       }
     );

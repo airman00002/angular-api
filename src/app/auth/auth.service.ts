@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
@@ -18,9 +22,22 @@ export interface AuthResponseData {
 })
 export class AuthService {
   // user = new BehaviorSubject<User>();
+
+  // Access-Control-Allow-Origin:  http://127.0.0.1:3000
+  // Access-Control-Allow-Methods: POST
+  // Access-Control-Allow-Headers: Content-Type, Authorization
+  // { headers: new HttpHeaders({'Authorization': 'Bearer ' + token})
+
   user = new Subject<User>();
   isLogIn = new BehaviorSubject<boolean>(false);
   REST_API: string = 'http://localhost:8080/auth';
+  httpHeaders = new HttpHeaders({
+    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    'Access-Control-Allow-Methods': 'POST',
+  });
+  // .set('Access-Control-Allow-Origin', 'http://localhost:4200')
+  // .set('Access-Control-Allow-Methods', 'POST')
+  // .set('Access-Control-Allow-Headers', 'Authorization');
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -42,12 +59,15 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    return this.http
-      .post<AuthResponseData>(`${this.REST_API}/login`, {
+    return this.http.post<AuthResponseData>(
+      `${this.REST_API}/login`,
+      {
         username: username,
         password: password,
-      })
-      .pipe();
+      },
+      { headers: this.httpHeaders }
+    );
+    // .pipe();
   }
 
   logout() {

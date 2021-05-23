@@ -31,9 +31,29 @@ export class CrudService {
   //   ),
   // ];
 
+  //   var reqHeader = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('mpManagerToken'))
+  //  });
+
+  // httpHeaders = new Headers({'Content-Type': 'application/json','Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYyMTc4NjA4N30.GHXP63B3lkgyy5zbMMMlrINjafB8QUZCsKYUJK53qLE'});
+
   private data: postData[] = [];
   REST_API: string = 'http://localhost:8080/blog';
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+  httpHeaders2 = new HttpHeaders({
+    'Content-Type': 'application/json',
+    Authorization:
+      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYyMTgwMDY0Nn0.BThWjbIVmQs73Dlb6_13MaqRi_4iQlt6PMC7Z05-MXE',
+  });
+  httpHeaders3 = new HttpHeaders({
+    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    Authorization:
+      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYyMTgwMDY0Nn0.BThWjbIVmQs73Dlb6_13MaqRi_4iQlt6PMC7Z05-MXE',
+  });
+  // .set('Content-Type', 'application/json')
+  // .set('Access-Control-Allow-Origin', '*')
+  // .set('Authorization','Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYyMTc4NjA4N30.GHXP63B3lkgyy5zbMMMlrINjafB8QUZCsKYUJK53qLE')
 
   constructor(private http: HttpClient) {}
 
@@ -53,7 +73,7 @@ export class CrudService {
   createData(data: postData) {
     let URL_PATH = `${this.REST_API}/create`;
     this.http
-      .post<postData[]>(URL_PATH, data, { headers: this.httpHeaders })
+      .post<postData[]>(URL_PATH, data, { headers: this.httpHeaders3 })
       .subscribe(() => {
         this.data.push(data);
         this.dataChanged.next(this.data.slice());
