@@ -31,13 +31,6 @@ export class AuthService {
   user = new Subject<User>();
   isLogIn = new BehaviorSubject<boolean>(false);
   REST_API: string = 'http://localhost:8080/auth';
-  httpHeaders = new HttpHeaders({
-    'Access-Control-Allow-Origin': 'http://localhost:4200',
-    'Access-Control-Allow-Methods': 'POST',
-  });
-  // .set('Access-Control-Allow-Origin', 'http://localhost:4200')
-  // .set('Access-Control-Allow-Methods', 'POST')
-  // .set('Access-Control-Allow-Headers', 'Authorization');
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -59,19 +52,16 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
-    return this.http.post<AuthResponseData>(
-      `${this.REST_API}/login`,
-      {
-        username: username,
-        password: password,
-      },
-      { headers: this.httpHeaders }
-    );
+    return this.http.post(`${this.REST_API}/login`, {
+      username: username,
+      password: password,
+    });
     // .pipe();
   }
 
   logout() {
     this.user.next();
+    localStorage.removeItem("token");
     console.log(this.user);
     this.router.navigate(['/login']);
   }

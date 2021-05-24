@@ -39,7 +39,7 @@ export class EditPostComponent implements OnInit {
   private initForm() {
     this.crudService.getDataById(this.id).subscribe(
       (data: any) => {
-        // console.log(data);
+        console.log(data);
         this.editForm = new FormGroup({
           image: new FormControl(data.image, Validators.required),
           name: new FormControl(data.name, Validators.required),

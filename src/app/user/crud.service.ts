@@ -41,19 +41,12 @@ export class CrudService {
   private data: postData[] = [];
   REST_API: string = 'http://localhost:8080/blog';
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+
   httpHeaders2 = new HttpHeaders({
     'Content-Type': 'application/json',
     Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYyMTgwMDY0Nn0.BThWjbIVmQs73Dlb6_13MaqRi_4iQlt6PMC7Z05-MXE',
+      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhaXJtYW4iLCJleHAiOjE2MjE4NzA4MDF9.OGC3rXw9CRK_iC2iPe6n1oQd6E9A_JKb6lk6Cf51-Oo',
   });
-  httpHeaders3 = new HttpHeaders({
-    'Access-Control-Allow-Origin': 'http://localhost:4200',
-    Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYyMTgwMDY0Nn0.BThWjbIVmQs73Dlb6_13MaqRi_4iQlt6PMC7Z05-MXE',
-  });
-  // .set('Content-Type', 'application/json')
-  // .set('Access-Control-Allow-Origin', '*')
-  // .set('Authorization','Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYyMTc4NjA4N30.GHXP63B3lkgyy5zbMMMlrINjafB8QUZCsKYUJK53qLE')
 
   constructor(private http: HttpClient) {}
 
@@ -67,23 +60,27 @@ export class CrudService {
 
   getDataById(id: any) {
     let URL_PATH = `${this.REST_API}/getById/${id}`;
-    return this.http.get<postData>(URL_PATH);
+    return this.http.get<postData>(URL_PATH, {
+      headers: this.httpHeaders2,
+    });
   }
 
   createData(data: postData) {
     let URL_PATH = `${this.REST_API}/create`;
-    this.http.post<postData[]>(URL_PATH, data).subscribe(() => {
-      this.data.push(data);
-      this.dataChanged.next(this.data.slice());
-      console.log('successfully created');
-    });
+    this.http
+      .post<postData[]>(URL_PATH, data, { headers: this.httpHeaders2 })
+      .subscribe(() => {
+        this.data.push(data);
+        this.dataChanged.next(this.data.slice());
+        console.log('successfully created');
+      });
   }
 
   updateData(id: number, newData: postData) {
     let URL_PATH = `${this.REST_API}/update/${id}`;
     this.http
       .put<postData[]>(URL_PATH, newData, {
-        headers: this.httpHeaders,
+        headers: this.httpHeaders2,
       })
       .subscribe(() => {
         this.data.forEach((val) => {
@@ -104,7 +101,7 @@ export class CrudService {
     let URL_PATH = `${this.REST_API}/delete/${id}`;
     this.http
       .delete(URL_PATH, {
-        headers: this.httpHeaders,
+        headers: this.httpHeaders2,
       })
       .subscribe(() => {
         this.data.splice(index, 1);

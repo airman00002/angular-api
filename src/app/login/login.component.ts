@@ -27,24 +27,25 @@ export class LoginComponent implements OnInit {
     const username = form.value.username;
     const password = form.value.password;
 
-    let authObs: Observable<AuthResponseData>;
     this.isLoading = true;
 
-    authObs = this.authService.login(username, password);
-
-    authObs.subscribe(
-      (resData) => {
-        console.log(resData);
-        this.isLoading = false;
-        this.authService.isLogIn.next(true);
-        this.router.navigate(['user']);
-      },
-      (errorMessage) => {
-        console.log(errorMessage);
-        this.error = errorMessage;
-        this.isLoading = false;
-      }
-    );
+    this.authService
+      .login(username, password)
+      .subscribe(
+        (resData: any) => {
+          console.log(resData.token);
+          localStorage.setItem('token', resData.token);
+          this.isLoading = false;
+          this.authService.isLogIn.next(true);
+          this.authService.user.next(resData.token);
+          this.router.navigate(['user']);
+        },
+        (errorMessage) => {
+          console.log(errorMessage);
+          this.error = errorMessage;
+          this.isLoading = false;
+        }
+      );
   }
   onCancel() {
     this.router.navigate(['']);
