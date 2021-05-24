@@ -12,7 +12,6 @@ import { postData } from '../data.model';
 export class EditPostComponent implements OnInit {
   editForm!: FormGroup;
   id!: number;
-  data_Id!: postData[];
 
   constructor(
     private crudService: CrudService,
@@ -39,21 +38,17 @@ export class EditPostComponent implements OnInit {
 
   private initForm() {
     this.crudService.getDataById(this.id).subscribe(
-      (data) => {
-        console.log(data);
-        // const data_Id = this.crudService.getDataById(this.id);
-        // let image = this.data_Id;
-        // let name = data_Id.name;
-        // let description = data_Id.description;
+      (data: any) => {
+        // console.log(data);
+        this.editForm = new FormGroup({
+          image: new FormControl(data.image, Validators.required),
+          name: new FormControl(data.name, Validators.required),
+          description: new FormControl(data.description, Validators.required),
+        });
       },
       (error) => {
-        // console.log(error.message);
+        console.log(error.message);
       }
     );
-    this.editForm = new FormGroup({
-      image: new FormControl(null, Validators.required),
-      name: new FormControl(null, Validators.required),
-      description: new FormControl(null, Validators.required),
-    });
   }
 }

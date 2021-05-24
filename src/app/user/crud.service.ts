@@ -67,7 +67,7 @@ export class CrudService {
 
   getDataById(id: any) {
     let URL_PATH = `${this.REST_API}/getById/${id}`;
-    return this.http.get<postData[]>(URL_PATH);
+    return this.http.get<postData>(URL_PATH);
   }
 
   createData(data: postData) {

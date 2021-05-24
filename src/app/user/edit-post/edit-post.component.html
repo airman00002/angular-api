@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col-sm-12 offset-md-3 col-md-6 my-4">
         <h2 class="text-center" >Updatae Post</h2>
-        <form [formGroup]="editForm" (ngSubmit)="onEditSubmit()">
+        <form [formGroup]="editForm" (ngSubmit)="onEditSubmit()" *ngIf="editForm">
           <div class="form-group">
             <label for="image">Image</label>
             <input
@@ -21,7 +21,7 @@
           </div> 
 
           <div class="form-group">
-            <label for="image">Name</label>
+            <label for="name">Name</label>
             <input
               type="text"
               name="name"
@@ -32,7 +32,7 @@
             />
           </div>
           <div class="form-group">
-            <label for="image">Description</label>
+            <label for="description">Description</label>
             <textarea
             id="description"
             type="text"
