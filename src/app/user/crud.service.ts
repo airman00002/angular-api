@@ -72,13 +72,11 @@ export class CrudService {
 
   createData(data: postData) {
     let URL_PATH = `${this.REST_API}/create`;
-    this.http
-      .post<postData[]>(URL_PATH, data, { headers: this.httpHeaders3 })
-      .subscribe(() => {
-        this.data.push(data);
-        this.dataChanged.next(this.data.slice());
-        console.log('successfully created');
-      });
+    this.http.post<postData[]>(URL_PATH, data).subscribe(() => {
+      this.data.push(data);
+      this.dataChanged.next(this.data.slice());
+      console.log('successfully created');
+    });
   }
 
   updateData(id: number, newData: postData) {
@@ -89,11 +87,13 @@ export class CrudService {
       })
       .subscribe(() => {
         this.data.forEach((val) => {
-          if (val.id == id) {
-            (val.name = newData.name),
-              (val.image = newData.image),
-              (val.description = newData.description);
-          }
+          val.id == id
+            ? [
+                (val.name = newData.name),
+                (val.image = newData.image),
+                (val.description = newData.description),
+              ]
+            : val;
         });
         this.dataChanged.next(this.data.slice());
         console.log('successfully updated');

@@ -31,7 +31,7 @@ export class CreatePostComponent implements OnInit {
 
   onCreateSubmit() {
     this.crudService.createData(this.createForm.value)
-    // this.router.navigate(['user']);
+    this.router.navigate(['user']);
     this.createForm.reset();
   }
 
