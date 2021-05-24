@@ -40,12 +40,13 @@ export class CrudService {
 
   private data: postData[] = [];
   REST_API: string = 'http://localhost:8080/blog';
-  httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+  // httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
+  Token:any = localStorage.getItem('token');
   httpHeaders2 = new HttpHeaders({
     'Content-Type': 'application/json',
     Authorization:
-      'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhaXJtYW4iLCJleHAiOjE2MjE4NzA4MDF9.OGC3rXw9CRK_iC2iPe6n1oQd6E9A_JKb6lk6Cf51-Oo',
+      `Bearer ${this.Token}`,
   });
 
   constructor(private http: HttpClient) {}

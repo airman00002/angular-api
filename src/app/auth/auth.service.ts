@@ -21,14 +21,7 @@ export interface AuthResponseData {
   providedIn: 'root',
 })
 export class AuthService {
-  // user = new BehaviorSubject<User>();
-
-  // Access-Control-Allow-Origin:  http://127.0.0.1:3000
-  // Access-Control-Allow-Methods: POST
-  // Access-Control-Allow-Headers: Content-Type, Authorization
-  // { headers: new HttpHeaders({'Authorization': 'Bearer ' + token})
-
-  user = new Subject<User>();
+  // user = new Subject<User>();
   isLogIn = new BehaviorSubject<boolean>(false);
   REST_API: string = 'http://localhost:8080/auth';
 
@@ -60,9 +53,10 @@ export class AuthService {
   }
 
   logout() {
-    this.user.next();
+    // this.user.next();
+    this.isLogIn.next(false);
     localStorage.removeItem("token");
-    console.log(this.user);
+    // console.log(this.user);
     this.router.navigate(['/login']);
   }
 
