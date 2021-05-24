@@ -31,9 +31,23 @@ export class CrudService {
   //   ),
   // ];
 
+  //   var reqHeader = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('mpManagerToken'))
+  //  });
+
+  // httpHeaders = new Headers({'Content-Type': 'application/json','Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYyMTc4NjA4N30.GHXP63B3lkgyy5zbMMMlrINjafB8QUZCsKYUJK53qLE'});
+
   private data: postData[] = [];
   REST_API: string = 'http://localhost:8080/blog';
-  httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+  // httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+
+  Token:any = localStorage.getItem('token');
+  httpHeaders2 = new HttpHeaders({
+    'Content-Type': 'application/json',
+    Authorization:
+      `Bearer ${this.Token}`,
+  });
 
   constructor(private http: HttpClient) {}
 
@@ -47,13 +61,15 @@ export class CrudService {
 
   getDataById(id: any) {
     let URL_PATH = `${this.REST_API}/getById/${id}`;
-    return this.http.get<postData[]>(URL_PATH);
+    return this.http.get<postData>(URL_PATH, {
+      headers: this.httpHeaders2,
+    });
   }
 
   createData(data: postData) {
     let URL_PATH = `${this.REST_API}/create`;
     this.http
-      .post<postData[]>(URL_PATH, data, { headers: this.httpHeaders })
+      .post<postData[]>(URL_PATH, data, { headers: this.httpHeaders2 })
       .subscribe(() => {
         this.data.push(data);
         this.dataChanged.next(this.data.slice());
@@ -65,15 +81,17 @@ export class CrudService {
     let URL_PATH = `${this.REST_API}/update/${id}`;
     this.http
       .put<postData[]>(URL_PATH, newData, {
-        headers: this.httpHeaders,
+        headers: this.httpHeaders2,
       })
       .subscribe(() => {
         this.data.forEach((val) => {
-          if (val.id == id) {
-            (val.name = newData.name),
-              (val.image = newData.image),
-              (val.description = newData.description);
-          }
+          val.id == id
+            ? [
+                (val.name = newData.name),
+                (val.image = newData.image),
+                (val.description = newData.description),
+              ]
+            : val;
         });
         this.dataChanged.next(this.data.slice());
         console.log('successfully updated');
@@ -84,7 +102,7 @@ export class CrudService {
     let URL_PATH = `${this.REST_API}/delete/${id}`;
     this.http
       .delete(URL_PATH, {
-        headers: this.httpHeaders,
+        headers: this.httpHeaders2,
       })
       .subscribe(() => {
         this.data.splice(index, 1);
