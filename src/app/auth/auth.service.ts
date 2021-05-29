@@ -21,8 +21,9 @@ export interface AuthResponseData {
   providedIn: 'root',
 })
 export class AuthService {
-  // user = new Subject<User>();
-  isLogIn = new BehaviorSubject<boolean>(false);
+  Token: any = localStorage.getItem('token');
+
+  isToken = new BehaviorSubject<any>(this.Token);
   REST_API: string = 'http://localhost:8080/auth';
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -49,13 +50,11 @@ export class AuthService {
       username: username,
       password: password,
     });
-    // .pipe();
   }
 
   logout() {
-    // this.user.next();
-    this.isLogIn.next(false);
-    localStorage.removeItem("token");
+    this.isToken.next(null);
+    localStorage.removeItem('token');
     // console.log(this.user);
     this.router.navigate(['/login']);
   }

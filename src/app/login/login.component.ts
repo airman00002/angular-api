@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   @ViewChild('loginForm', { static: false }) loginForm!: NgForm;
   isLoading = false;
   error: any = null;
-  authObs: any;
+  getToken: any;
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
@@ -29,24 +29,21 @@ export class LoginComponent implements OnInit {
 
     this.isLoading = true;
 
-    this.authService
-      .login(username, password)
-      .subscribe(
-        (resData: any) => {
-          console.log(resData.token);
-          localStorage.setItem('token', resData.token);
-          this.isLoading = false;
-          this.authService.isLogIn.next(true);
-          // this.authService.user.next(resData.token);
-          // console.log(this.authService.user)
-          this.router.navigate(['user']);
-        },
-        (errorMessage) => {
-          console.log(errorMessage);
-          this.error = errorMessage;
-          this.isLoading = false;
-        }
-      );
+    this.authService.login(username, password).subscribe(
+      (resData: any) => {
+        console.log(resData.token);
+        localStorage.setItem('token', resData.token);
+        this.isLoading = false;
+        this.authService.isToken.next(resData.token);
+
+        this.router.navigate(['user']);
+      },
+      (errorMessage) => {
+        console.log(errorMessage);
+        this.error = errorMessage;
+        this.isLoading = false;
+      }
+    );
   }
   onCancel() {
     this.router.navigate(['']);
