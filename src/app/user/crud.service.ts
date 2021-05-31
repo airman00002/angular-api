@@ -43,7 +43,7 @@ export class CrudService {
   // httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   Token:any = localStorage.getItem('token');
-  httpHeaders = new HttpHeaders({
+  httpHeader = new HttpHeaders({
     'Content-Type': 'application/json',
     Authorization:
       `Bearer ${this.Token}`,
@@ -62,14 +62,14 @@ export class CrudService {
   getDataById(id: any) {
     let URL_PATH = `${this.REST_API}/getById/${id}`;
     return this.http.get<postData>(URL_PATH, {
-      headers: this.httpHeaders,
+      headers: this.httpHeader,
     });
   }
 
   createData(data: postData) {
     let URL_PATH = `${this.REST_API}/create`;
     this.http
-      .post<postData[]>(URL_PATH, data, { headers: this.httpHeaders })
+      .post<postData[]>(URL_PATH, data, { headers: this.httpHeader })
       .subscribe(() => {
         this.data.push(data);
         this.dataChanged.next(this.data.slice());
@@ -81,7 +81,7 @@ export class CrudService {
     let URL_PATH = `${this.REST_API}/update/${id}`;
     this.http
       .put<postData[]>(URL_PATH, newData, {
-        headers: this.httpHeaders,
+        headers: this.httpHeader,
       })
       .subscribe(() => {
         this.data.forEach((val) => {
@@ -102,7 +102,7 @@ export class CrudService {
     let URL_PATH = `${this.REST_API}/delete/${id}`;
     this.http
       .delete(URL_PATH, {
-        headers: this.httpHeaders,
+        headers: this.httpHeader,
       })
       .subscribe(() => {
         this.data.splice(index, 1);
